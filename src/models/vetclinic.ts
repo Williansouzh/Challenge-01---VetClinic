@@ -8,7 +8,7 @@ interface Pet {
   date_of_birth: string
 }
 
-interface Tutor extends Document {
+export interface Tutor extends Document {
   name: string
   phone: string
   email: string
@@ -34,6 +34,6 @@ const tutorSchema = new Schema<Tutor>({
   pets: { type: [petSchema], default: [] },
 })
 
-const TutorModel = mongoose.model<Tutor>('Tutors', tutorSchema, 'tutors')
+const TutorModel = mongoose.model<Tutor>('tutors', tutorSchema, 'tutors')
 
 export default TutorModel

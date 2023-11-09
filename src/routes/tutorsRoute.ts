@@ -5,4 +5,6 @@ const router = Router()
 
 router.get('/tutors', TutorsControllers.getAll)
 
+router.post('/tutor', TutorsControllers.create)
+
 export default router
