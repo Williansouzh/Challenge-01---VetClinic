@@ -1,10 +1,12 @@
-import { Router } from 'express'
-import { TutorsControllers } from '../controllers/tutorsControllers'
+import { Router } from 'express';
+import { TutorsControllers } from '../controllers/tutorsControllers';
 
-const router = Router()
+const router = Router();
 
-router.get('/tutors', TutorsControllers.getAll)
+router.get('/tutors', TutorsControllers.getAll);
 
-router.post('/tutor', TutorsControllers.create)
+router.post('/tutor', TutorsControllers.create);
 
-export default router
+router.put('/tutor/:id', TutorsControllers.editTutor);
+
+export default router;

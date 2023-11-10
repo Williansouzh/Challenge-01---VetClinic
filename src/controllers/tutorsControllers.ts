@@ -1,46 +1,54 @@
+// TutorsControllers.ts
 import { Response, Request } from 'express';
 import connectToMongoDB from '../connection/mongodb';
-import TutorModel, { Tutor } from '../models/vetclinic';
+import {
+  getAllTutors,
+  createTutor,
+  editTutor,
+} from '../services/tutorsService';
+import {
+  handleSuccessResponse,
+  handleCreateSuccessResponse,
+  handleErrorResponse,
+} from '../helpers/responseHelpers';
 
 export class TutorsControllers {
-  static getAll(req: Request, res: Response): void {
-    connectToMongoDB()
-      .then(() => TutorModel.find())
-      .then((tutors) => {
-        console.log('Fetched tutors:', tutors);
-        res.status(200).json(tutors);
-      })
-      .catch((error) => {
-        console.error('Error fetching tutors:', error);
-        TutorsControllers.handleErrorResponse(res);
-      });
+  static async getAll(req: Request, res: Response): Promise<void> {
+    try {
+      await connectToMongoDB();
+      const tutors = await getAllTutors();
+      handleSuccessResponse(res, tutors);
+    } catch (error) {
+      console.error('Error fetching tutors:', error);
+      handleErrorResponse(res);
+    }
   }
 
-  static create(req: Request, res: Response): void {
-    connectToMongoDB()
-      .then(() => {
-        const { name, phone, email, date_of_birth, zipCode, pets } = req.body;
-        const newTutor: Tutor = new TutorModel({
-          name,
-          phone,
-          email,
-          date_of_birth,
-          zipCode,
-          pets,
-        });
-        return newTutor.save();
-      })
-      .then((createdTutor) => {
-        console.log('Created tutor:', createdTutor);
-        res.status(201).json(createdTutor);
-      })
-      .catch((error) => {
-        console.error('Error creating tutor:', error);
-        TutorsControllers.handleErrorResponse(res);
-      });
+  static async create(req: Request, res: Response): Promise<void> {
+    try {
+      await connectToMongoDB();
+      const tutorData = req.body;
+      const createdTutor = await createTutor(tutorData);
+      handleCreateSuccessResponse(res, createdTutor);
+    } catch (error) {
+      console.error('Error creating tutor:', error);
+      handleErrorResponse(res);
+    }
   }
 
-  private static handleErrorResponse(res: Response): void {
-    res.status(500).json({ error: 'Internal Server Error' });
+  static async editTutor(req: Request, res: Response): Promise<void> {
+    try {
+      await connectToMongoDB();
+      const tutorData = req.body;
+      const tutorID = req.params.id;
+      const editedTutor = await editTutor(tutorID, tutorData);
+
+      handleCreateSuccessResponse(res, editedTutor);
+    } catch (error) {
+      console.error('Error edit tutor:', error);
+      handleErrorResponse(res);
+    }
   }
+
+  static async editPet(req: Request, res: Response);
 }
