@@ -9,6 +9,5 @@ router.post('/tutor', TutorsControllers.create);
 
 router.put('/tutor/:id', TutorsControllers.editTutor);
 
-router.put('/:petId/tutor/:tutorId', TutorsControllers.editPet);
-
+router.delete('/tutor/:id', TutorsControllers.deleteTutor);
 export default router;

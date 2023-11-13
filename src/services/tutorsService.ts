@@ -21,3 +21,13 @@ export const editTutor = async (
   );
   return editedTutor;
 };
+
+export const deleteTutor = async (tutorId: string): Promise<string | null> => {
+  const deletedTutor = await TutorModel.findOneAndDelete({ _id: tutorId });
+
+  if (deletedTutor) {
+    return `Tutor with ID ${tutorId} deleted successfully.`;
+  } else {
+    return null;
+  }
+};

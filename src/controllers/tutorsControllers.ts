@@ -5,13 +5,13 @@ import {
   getAllTutors,
   createTutor,
   editTutor,
+  deleteTutor,
 } from '../services/tutorsService';
 import {
   handleSuccessResponse,
   handleCreateSuccessResponse,
   handleErrorResponse,
 } from '../helpers/responseHelpers';
-import { editPet } from '../services/petService';
 
 export class TutorsControllers {
   static async getAll(req: Request, res: Response): Promise<void> {
@@ -60,19 +60,16 @@ export class TutorsControllers {
     }
   }
 
-  static async editPet(req: Request, res: Response) {
+  static async deleteTutor(req: Request, res: Response): Promise<void> {
     try {
-      await connectToMongoDB();
-      const petData = req.body;
-      const petID = req.params.petId;
-      const tutorID = req.params.tutorId;
-      const editedPet = await editPet(petID, tutorID, petData);
-
-      handleCreateSuccessResponse(res, editedPet);
-    } catch (error: unknown) {
+      const tutorID = req.params.id;
+      const deletedTutor = await deleteTutor(tutorID);
+      handleCreateSuccessResponse(res, deletedTutor);
+    } catch (error) {
+      console.error('Error edit tutor:', error);
       handleErrorResponse(
         res,
-        error instanceof Error ? error.message : 'Erro desconhecido.',
+        error instanceof Error ? error.message : 'Unknow desconhecido.',
       );
     }
   }

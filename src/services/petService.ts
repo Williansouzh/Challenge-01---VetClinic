@@ -1,5 +1,34 @@
 import TutorModel, { Tutor, Pet } from '../models/vetclinic';
 
+export const createPet = async (
+  tutorId: string,
+  petData: Partial<Pet>,
+): Promise<Tutor | null> => {
+  const tutor = await TutorModel.findById(tutorId);
+
+  if (!tutor) {
+    throw new Error('Tutor not found.');
+  }
+
+  const newPet: Pet = {
+    name: petData.name || '',
+    species: '',
+    carry: '',
+    weight: 0,
+    date_of_birth: '',
+  };
+
+  tutor.pets.push(newPet);
+
+  const updatedTutor = await TutorModel.findByIdAndUpdate(
+    tutorId,
+    { $set: { pets: tutor.pets } },
+    { new: true },
+  );
+
+  return updatedTutor;
+};
+
 export const editPet = async (
   petId: string,
   tutorId: string,
@@ -34,4 +63,34 @@ export const editPet = async (
   );
 
   return editedTutor;
+};
+export const deletePet = async (
+  petId: string,
+  tutorId: string,
+): Promise<string | null> => {
+  const tutor = await TutorModel.findById(tutorId);
+
+  if (!tutor) {
+    throw new Error('Tutor not found.');
+  }
+
+  const deletedPetIndex = tutor.pets.findIndex((pet) => pet.id === petId);
+
+  if (deletedPetIndex === -1) {
+    throw new Error('Pet not found in Tutor.');
+  }
+
+  tutor.pets.splice(deletedPetIndex, 1);
+
+  const deletedPet = await TutorModel.findByIdAndUpdate(
+    tutorId,
+    { $set: { pets: tutor.pets } },
+    { new: true },
+  );
+
+  if (deletedPet) {
+    return `Tutor with ID ${tutorId} deleted successfully.`;
+  } else {
+    return null;
+  }
 };
