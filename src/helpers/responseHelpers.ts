@@ -8,6 +8,9 @@ export const handleCreateSuccessResponse = (res: Response, data: any): void => {
   res.status(201).json(data);
 };
 
-export const handleErrorResponse = (res: Response): void => {
-  res.status(500).json({ error: 'Internal Server Error' });
+export const handleErrorResponse = (
+  res: Response,
+  errorMessage: string,
+): void => {
+  res.status(500).json({ error: errorMessage });
 };

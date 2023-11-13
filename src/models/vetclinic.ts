@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface Pet {
+export interface Pet {
+  id?: string;
   name: string;
   species: string;
   carry: string;

@@ -9,4 +9,6 @@ router.post('/tutor', TutorsControllers.create);
 
 router.put('/tutor/:id', TutorsControllers.editTutor);
 
+router.put('/:petId/tutor/:tutorId', TutorsControllers.editPet);
+
 export default router;
