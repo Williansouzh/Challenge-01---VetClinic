@@ -11,7 +11,7 @@ import {
   handleCreateSuccessResponse,
   handleErrorResponse,
 } from '../helpers/responseHelpers';
-import { editPet } from '../services/petTutor';
+import { editPet } from '../services/petService';
 
 export class TutorsControllers {
   static async getAll(req: Request, res: Response): Promise<void> {

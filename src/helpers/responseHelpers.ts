@@ -1,10 +1,13 @@
 import { Response } from 'express';
 
-export const handleSuccessResponse = (res: Response, data: any): void => {
+export const handleSuccessResponse = (res: Response, data: unknown): void => {
   res.status(200).json(data);
 };
 
-export const handleCreateSuccessResponse = (res: Response, data: any): void => {
+export const handleCreateSuccessResponse = (
+  res: Response,
+  data: unknown,
+): void => {
   res.status(201).json(data);
 };
 

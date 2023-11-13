@@ -26,14 +26,17 @@ const petSchema = new Schema<Pet>({
   date_of_birth: { type: String, required: true },
 });
 
-const tutorSchema = new Schema<Tutor>({
-  name: { type: String, required: true },
-  phone: { type: String, required: true },
-  email: { type: String, required: true },
-  date_of_birth: { type: String, required: true },
-  zipCode: { type: String, required: true },
-  pets: { type: [petSchema], default: [] },
-});
+const tutorSchema = new Schema<Tutor>(
+  {
+    name: { type: String, required: true },
+    phone: { type: String, required: true },
+    email: { type: String, required: true },
+    date_of_birth: { type: String, required: true },
+    zipCode: { type: String, required: true },
+    pets: { type: [petSchema], default: [] },
+  },
+  { strict: false },
+);
 
 const TutorModel = mongoose.model<Tutor>('tutors', tutorSchema, 'tutors');
 

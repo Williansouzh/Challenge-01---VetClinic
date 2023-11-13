@@ -10,10 +10,14 @@ export const createTutor = async (tutorData: Tutor): Promise<Tutor> => {
 };
 export const editTutor = async (
   tutorId: string,
-  tutorData: Tutor,
+  tutorData: Partial<Tutor>,
 ): Promise<Tutor | null> => {
-  const editedTutor = await TutorModel.findByIdAndUpdate(tutorId, tutorData, {
-    new: true,
-  });
+  const editedTutor = await TutorModel.findByIdAndUpdate(
+    tutorId,
+    { $set: tutorData },
+    {
+      new: true,
+    },
+  );
   return editedTutor;
 };
