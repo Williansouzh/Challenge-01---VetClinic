@@ -9,7 +9,15 @@ export const createPet = async (
   if (!tutor) {
     throw new Error('Tutor not found.');
   }
-
+  if (
+    !petData.name ||
+    !petData.species ||
+    !petData.carry ||
+    !petData.weight ||
+    !petData.date_of_birth
+  ) {
+    throw new Error('All fields are required for creating a pet.');
+  }
   const newPet: Pet = {
     name: petData.name || '',
     species: '',
