@@ -1,11 +1,12 @@
-import server from "@/index"
+import express from "express"
 import dotenv from "dotenv"
+import connect from "./server"
+import tutorRouter from "@/routes/tutorsRoute"
 dotenv.config()
-const port: number = parseInt(process.env.PORT || "3333", 10)
-try {
-  server.listen(3333, () => {
-    console.log(`Server running at port: ${port}`)
-  })
-} catch (error) {
-  console.error(error)
-}
+
+const app = express()
+app.use(express.json())
+app.use(tutorRouter)
+connect()
+
+export default app
